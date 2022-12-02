@@ -88,23 +88,63 @@ def les_plus_pop (dico_reseau):
 ##############
 
 def create_network(list_of_friends):
-    pass
+    dico = {}
+    i = 0
+    while i < len(amis):
+        if amis[i] not in dico:
+            dico[amis[i]] = []
+            j = 0
+        while j < len(amis):
+            if amis[j] == amis[i]:
+                if j%2 == 0:
+                    dico[amis[i]].append(amis[j+1])
+                else:
+                    dico[amis[i]].append(amis[j-1])
+            j+=1
+        i+=1
+    return dico
 
 def get_people(network):
-    pass
+    liste = list(reseau.keys())
+    return liste
 
 def are_friends(network, person1, person2):
-    pass
+    i = 0
+    while i < len(reseau[p1]):
+        if reseau[p1][i] == p2:
+            return True
+        i += 1
+  return False 
 
 def all_his_friends(network, person, group):
-    pass
+    i=0
+    tab = list(reseau[per])
+    while i < len(grp):
+        if grp[i] not in tab:
+            return False
+        i += 1
+    return True
 
 def is_a_community(network, group):
-    pass
+    tab = list(reseau[grp[0]])
+    i = 1
+    while i < len(grp):
+        if grp[i] not in tab:
+            return False
+        i+=1
+    return True
 
 
 def find_community(network, group):
-    pass
+    com = [grp[0]]
+    i = 1
+    tab = list(reseau[grp[0]])
+    while i < len(grp):
+        if grp[i] in tab:
+            com.append(grp[i])
+        i += 1
+    if is_a_community:
+        return com
 
 def order_by_decreasing_popularity(network, group):
     pass
