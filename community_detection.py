@@ -147,7 +147,17 @@ def find_community(network, group):
         return com
 
 def order_by_decreasing_popularity(network, group):
-    pass
+    i = 0
+    while i < len(group):
+        j = i
+        imax = i
+        while j < len(group):
+            if len(network[group[j]]) > len(network[group[imax]]):
+                imax = j
+            j+= 1
+        group[i], group[imax] = group[imax], group[i]
+        i+= 1
+    return group
 
 
 def find_community_by_decreasing_popularity(network):
