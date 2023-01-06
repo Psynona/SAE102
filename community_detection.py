@@ -87,66 +87,94 @@ def les_plus_pop (dico_reseau):
 # SAE S01.02 #
 ##############
 
-def create_network(list_of_friends):
+def ami(dico : dict, i : int, liste : list):
+    """
+    Prend en paramètre un dictionnaire où mettre les valeurs, l'indice du premier ami 
+    et une liste de couple d'ami.
+    Met le premier ami en valeur du deuxième et inversement.
+    """
+    dico[liste[i]].append(liste[i+1])
+    dico[liste[i+1]].append(liste[i])
+
+def create_network(list_of_friends : list) -> dict:
+    """
+    Retourne un dictionnaire à partir d'une liste d'amis prise en paramètre 
+    """
     dico = {}
     i = 0
-    while i < len(amis):
-        if amis[i] not in dico:
-            dico[amis[i]] = []
-            j = 0
-        while j < len(amis):
-            if amis[j] == amis[i]:
-                if j%2 == 0:
-                    dico[amis[i]].append(amis[j+1])
-                else:
-                    dico[amis[i]].append(amis[j-1])
-            j+=1
-        i+=1
+    while i < len(list_of_friends):
+        if list_of_friends[i] not in dico:
+            dico[list_of_friends[i]] = []
+        if list_of_friends[i+1] not in dico:
+            dico[list_of_friends[i+1]] = []
+        ami(dico, i, list_of_friends)
+        i+=2
     return dico
 
-def get_people(network):
-    liste = list(reseau.keys())
+def get_people(network : dict) -> list:
+    """
+    Retourne la liste de toutes les personnes participant au réseau network.
+    """
+    liste = list(network.keys())
     return liste
 
-def are_friends(network, person1, person2):
+def are_friends(network : dict, person1 : str, person2 : str) -> bool:
+    """
+    Retourne vrai ou faux selon si la première personne (person1)
+    et seconde personne (person2) sont amis grâce au dictionnaire network.
+    """
     i = 0
-    while i < len(reseau[p1]):
-        if reseau[p1][i] == p2:
+    while i < len(network[person1]):
+        if network[person1][i] == person2:
             return True
         i += 1
-  return False 
+    return False 
 
-def all_his_friends(network, person, group):
+def all_his_friends(network : dict, person : str, group : list) -> bool:
+    """
+    Retourne vrai ou faux selon si la personne person est ami(e) avec toutes 
+    les personnes du groupe group grâce au dictionnaire network.
+    """
     i=0
-    tab = list(reseau[per])
-    while i < len(grp):
-        if grp[i] not in tab:
+    tab = list(network[person])
+    while i < len(group):
+        if group[i] not in tab:
             return False
         i += 1
     return True
 
-def is_a_community(network, group):
-    tab = list(reseau[grp[0]])
+def is_a_community(network : dict, group : list) -> bool:
+    """
+    Retourne vrai ou faux selon si le groupe group est une communauté grâce
+    au dictionnaire network.
+    """
+    tab = list(network[group[0]])
     i = 1
-    while i < len(grp):
-        if grp[i] not in tab:
+    while i < len(group):
+        if group[i] not in tab:
             return False
         i+=1
     return True
 
 
-def find_community(network, group):
-    com = [grp[0]]
+def find_community(network : dict, group : list) -> list:
+    """
+    Retourne une liste com qui représente la communauté de la première personne
+    de la liste group à l'aide du dictionnaire network.
+    """
+    com = [group[0]]
     i = 1
-    tab = list(reseau[grp[0]])
-    while i < len(grp):
-        if grp[i] in tab:
-            com.append(grp[i])
-        i += 1
-    if is_a_community:
-        return com
+    while i < len(group):
+        if all_his_friends(network, group[i], com):
+            com.append(group[i])
+        i+=1
+    return com
 
-def order_by_decreasing_popularity(network, group):
+def order_by_decreasing_popularity(network : dict, group : list) -> list:
+    """
+    Retourne la liste triée dans l'ordre décroissant de popularité grâce
+    au dictionnaire network.
+    """
     i = 0
     while i < len(group):
         j = i
@@ -160,11 +188,40 @@ def order_by_decreasing_popularity(network, group):
     return group
 
 
-def find_community_by_decreasing_popularity(network):
-    pass
+def find_community_by_decreasing_popularity(network : dict) -> list:
+    """
+    Retourne une liste de la communauté de la personne la plus populaire 
+    du dictionnaire network.
+    """
+    group = list(network)
+    pop = order_by_decreasing_popularity(network, group)
+    res = find_community(network, pop)
+    return res
 
-def find_community_from_person(network, person):
-    pass
+def find_community_from_person(network : dict, person : str) -> list:
+    """
+    Retourne la liste de la communauté de la personne person grâce au 
+    dictionnaire network
+    """
+    commu = [person]
+    amis = find_community_by_decreasing_popularity(network)
+    i = 0
+    while i < len(amis):
+        if all_his_friends(network, amis[i], commu):
+            commu.append(amis[i])
+        i+=1
+    return commu
 
-def find_max_community(network):
-    pass
+def find_max_community(network : dict) -> list:
+    """
+    Retourne la liste de la plus grande communauté du dictionnaire network.
+    """
+    people = get_people(network)
+    c_max = find_community_from_person(network, people[0])
+    i = 1
+    while i < len(people):
+        if is_a_community(network, find_community_from_person(network, people[i])):
+            if len(find_community_from_person(network, people[i])) > len(c_max):
+                c_max = find_community_from_person(network, people[i])
+        i+=1
+    return c_max
