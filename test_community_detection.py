@@ -13,6 +13,7 @@ def get_people_test():
     print("Test de la fonction get_people : ok")
 
 get_people_test()
+
 def are_friends_test():
     assert are_friends({"Alice": ["Bobby","Charles"], "Bobby":["Alice"], "Charles":["Alice"]}, "Alice", "Charles") == True
     assert are_friends({"Anna":["Eric","Marc"], "Eric":["Anna","Marc"], "Marc":["Axel","Eric","Anna"], "Axel":["Marc"]}, "Marc", "Anna") == True
