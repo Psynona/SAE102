@@ -1,3 +1,5 @@
+from community_detection import *
+
 def create_network_test():
     assert create_network(["Alice","Bobby","Alice","Charles"]) == {"Alice": ["Bobby","Charles"], "Bobby":["Alice"], "Charles":["Alice"]}
     assert create_network(["Anna","Eric","Marc","Axel","Eric","Marc","Anna","Marc"]) == {"Anna":["Eric","Marc"], "Eric":["Anna","Marc"], "Marc":["Axel","Eric","Anna"], "Axel":["Marc"]}
