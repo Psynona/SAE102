@@ -148,11 +148,16 @@ def is_a_community(network : dict, group : list) -> bool:
     Retourne vrai ou faux selon si le groupe group est une communauté grâce
     au dictionnaire network.
     """
-    tab = list(network[group[0]])
-    i = 1
+    i = 0
     while i < len(group):
-        if group[i] not in tab:
-            return False
+        tab = list(network[group[i]])
+        j = 0
+        while j < len(group) : 
+            if group[j] != group[i]:
+                print('a', tab, group[j])
+                if group[j] not in tab:
+                    return False
+            j+=1
         i+=1
     return True
 
