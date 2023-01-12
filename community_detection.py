@@ -150,14 +150,10 @@ def is_a_community(network : dict, group : list) -> bool:
     """
     i = 0
     while i < len(group):
-        tab = list(network[group[i]])
-        j = 0
-        while j < len(group) : 
-            if group[j] != group[i]:
-                print('a', tab, group[j])
-                if group[j] not in tab:
-                    return False
-            j+=1
+        tab = group.copy()
+        tab.pop(i)
+        if not all_his_friends(network, group[i], tab):
+            return False
         i+=1
     return True
 
