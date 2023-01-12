@@ -98,7 +98,7 @@ def ami(dico : dict, i : int, liste : list):
 
 def create_network(list_of_friends : list) -> dict:
     """
-    Retourne un dictionnaire à partir d'une liste d'amis prise en paramètre 
+    Retourne un dictionnaire qui représente le réseau d'une liste d'amis prise en paramètre 
     """
     dico = {}
     i = 0
@@ -159,7 +159,7 @@ def is_a_community(network : dict, group : list) -> bool:
 
 def find_community(network : dict, group : list) -> list:
     """
-    Retourne une liste com qui représente la communauté de la première personne
+    Retourne une liste qui représente la communauté de la première personne
     de la liste group à l'aide du dictionnaire network.
     """
     com = [group[0]]
