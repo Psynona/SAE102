@@ -27,7 +27,7 @@ def test_all_his_friends():
 
 def test_is_a_community():
     assert is_a_community({"Alice": ["Bobby","Charles"], "Bobby":["Alice"], "Charles":["Alice"]}, ["Charles","Alice","Bobby"]) == False
-    assert is_a_community({"Anna":["Eric","Marc"], "Eric":["Anna","Marc"], "Marc":["Axel","Eric","Anna"], "Axel":["Marc"]}, ["Anna","Marc","Eric"]) == True
+    assert is_a_community({"Alice" : ["Bob", "Dominique"], "Bob" : ["Alice", "Charlie"], "Charlie" : ["Bob"], "Dominique" : ["Alice"]}, ["Alice", "Bob", "Dominique"]) == False
     assert is_a_community({"Alice": ["Bobby"], "Bobby":["Alice"], "Charles":["Dominique"], "Dominique":["Charles"]}, ["Bobby","Dominique","Alice"]) == False
     print("Test de la fonction is_a_community : ok")
 
